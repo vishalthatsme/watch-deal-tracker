@@ -1,7 +1,7 @@
 .DS_Store
 .env
-!.env.example
 .env.*
+!.env.example
 !.env.*.example
 config/secrets.env
 **/secrets.env
