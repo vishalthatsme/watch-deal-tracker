@@ -1,0 +1,49 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "watch-deal-tracker"
+version = "0.1.0"
+description = "A reliable local-first collector and deal analyst for high-end watch listings."
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "Private use" }
+dependencies = [
+  "alembic>=1.15,<2",
+  "filelock>=3.18,<4",
+  "httpx>=0.28,<1",
+  "pydantic>=2.11,<3",
+  "PyYAML>=6.0,<7",
+  "SQLAlchemy>=2.0,<3",
+  "tenacity>=9.1,<10",
+  "typer>=0.16,<1",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.4,<9",
+  "pytest-cov>=6.2,<7",
+  "ruff>=0.12,<1",
+]
+
+[project.scripts]
+watch-tracker = "watch_tracker.cli:app"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/watch_tracker"]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+extend-exclude = [".python", ".venv", "data", "logs"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.ruff.lint.per-file-ignores]
+"src/watch_tracker/cli.py" = ["B008"]

@@ -1,0 +1,80 @@
+application:
+  timezone: America/Los_Angeles
+  schedule_hour: 0
+  schedule_minute: 0
+  discovery_window_hours: 48
+  valuation_refresh_hours: 168
+  sold_price_recheck_days: 14
+  log_level: INFO
+  user_agent: "watch-deal-tracker/0.1 (+local research tool)"
+
+paths:
+  database: data/database/watch_market.sqlite
+  exports: data/exports
+  backups: data/backups
+  evidence: data/evidence
+  logs: logs
+  lock: data/database/watch_tracker.lock
+
+network:
+  timeout_seconds: 20
+  max_retries: 3
+  backoff_seconds: 1.0
+  minimum_request_interval_seconds: 1.5
+
+sources:
+  reddit:
+    enabled: true
+    community: Watchexchange
+    page_limit: 100
+    max_requests_per_run: 100
+    access_approved: false
+    deletion_contract_verified: false
+  chrono24:
+    enabled: false
+    access_authorized: false
+    authorized_feed_path:
+    require_verified_posted_date: true
+
+target_brands:
+  - canonical: A. Lange & Söhne
+    aliases:
+      - a. lange & söhne
+      - a lange & sohne
+      - a lange and sohne
+      - lange
+  - canonical: Breguet
+    aliases:
+      - breguet
+  - canonical: Jaeger-LeCoultre
+    aliases:
+      - jaeger-lecoultre
+      - jaeger lecoultre
+      - jlc
+  - canonical: Patek Philippe
+    aliases:
+      - patek philippe
+      - patek
+  - canonical: Glashütte Original
+    aliases:
+      - glashütte original
+      - glashutte original
+      - glasshutte original
+      - glashuttes original
+      - glaschuttes original
+
+currency:
+  base: USD
+  provider_url: https://api.frankfurter.dev/v1
+  cache_hours: 24
+
+scoring:
+  version: "1.1"
+  valuation_version: "1.1"
+  strong_authenticity_risk_cap: 4.0
+  scam_indicator_cap: 2.0
+
+retention:
+  daily_backups: 30
+  evidence_days: 30
+  log_days: 30
